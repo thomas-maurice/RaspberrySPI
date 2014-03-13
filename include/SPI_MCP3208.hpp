@@ -26,8 +26,16 @@
  */
 #include <SPI.hpp>
 
+/**
+ * \class SPI_MCP3208
+ * \brief A class to read from Microchip's MCP3208 ADCs
+ */
+
 class SPI_MCP3208 : public SPI {
 	public:
+		/** Default consctructor */
 		SPI_MCP3208(std::string spifile, int speed, int mode = SPI_MODE_0, int bits_p_word = 8);
+		/** Reads a value from the ADC */
+		int readValue(bool single_ended, unsigned char channel);
 	private:
 };
