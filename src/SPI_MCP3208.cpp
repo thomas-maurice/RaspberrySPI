@@ -26,6 +26,7 @@
  */
  
 #include <SPI_MCP3208.hpp>
+#include <bitset>
 
 /**
  * Default contructor, see the SPI class documentation for more information
@@ -45,8 +46,9 @@ SPI_MCP3208::SPI_MCP3208(std::string spifile, int speed, int mode, int bits_p_wo
  * 
  * \returns The value returned by the ADC (between 0 and 2^12)
  */
-int SPI_MCP3208::readValue(bool single_ended, unsigned char channel) {
-	unsigned char command_bytes[4] = {0};
+uint16_t SPI_MCP3208::readValue(bool single_ended, unsigned char channel) {
+	unsigned char command_bytes[6] = {0};
+	memset(command_byte, 6, 0);
 	command_bytes[0] |= 0x4; // The start bit
 	if(single_ended)
 		command_bytes[0] |= 0x02; // Single or differential mode
@@ -55,18 +57,21 @@ int SPI_MCP3208::readValue(bool single_ended, unsigned char channel) {
 	
 	command_bytes[1] |= ((channel&0x01)<<7);
 	
-	for(int i = 0; i < 4; i++)
-		std::cout << std::hex << " 0x" << (int)command_bytes[i];
+	//for(int i = 0; i < 4; i++)
+	//	std::cout << std::hex << " 0x" << (int)command_bytes[i];
 	
-	std::cout << std::endl;
+	//std::cout << std::endl;
 	
 	transfer(command_bytes, 4);
 	
-	for(int i = 0; i < 4; i++)
-		std::cout << std::hex << " 0x" << (int)command_bytes[i];
+	//for(int i = 0; i < 4; i++)
+	//	std::cout << " " << (std::bitset<8>((int)command_bytes[i]));
 	
-	std::cout << std::endl;
+	//std::cout << std::endl;
 	
-	int result = ((command_bytes[2]&0x0F)<<8)+command_bytes[3];
+	std::cout << std::hex << "0x" << (int)command_bytes[2] << (int)command_bytes[3]<<std::endl;
+	
+	uint16_t result = ((command_bytes[2]&0x0F)<<8)+command_bytes[3];
+	std::cout << std::hex << "0x" << result << std::endl;
 	return result;
 }
