@@ -48,7 +48,7 @@ SPI_MCP3208::SPI_MCP3208(std::string spifile, int speed, int mode, int bits_p_wo
  */
 uint16_t SPI_MCP3208::readValue(bool single_ended, unsigned char channel) {
 	unsigned char command_bytes[6] = {0};
-	memset(command_byte, 6, 0);
+	memset(command_bytes, 6, 0);
 	command_bytes[0] |= 0x4; // The start bit
 	if(single_ended)
 		command_bytes[0] |= 0x02; // Single or differential mode

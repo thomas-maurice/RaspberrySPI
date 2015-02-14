@@ -26,6 +26,7 @@
  */
 #include <SPI.hpp>
 #include <stdint.h>
+#include <string.h>
 
 /**
  * \class SPI_MCP3208
